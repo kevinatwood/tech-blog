@@ -1,13 +1,13 @@
 const newFormHandler = async (event) => {
   event.preventDefault();
 
-  const title = document.querySelector('#project-name').value.trim();
+
   const body = document.querySelector('#project-desc').value.trim();
 
-  if (title && body) {
-    const response = await fetch(`/api/posts`, {
+  if ( body) {
+    const response = await fetch(`/api/commments`, {
       method: 'POST',
-      body: JSON.stringify({ title, body }),
+      body: JSON.stringify({ body }),
       headers: {
         'Content-Type': 'application/json',
       },
@@ -25,7 +25,7 @@ const delButtonHandler = async (event) => {
   if (event.target.hasAttribute('data-id')) {
     const id = event.target.getAttribute('data-id');
 
-    const response = await fetch(`/api/projects/${id}`, {
+    const response = await fetch(`/api/post/${id}`, {
       method: 'DELETE',
     });
 
