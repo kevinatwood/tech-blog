@@ -1,5 +1,5 @@
 const router = require('express').Router();
-const { User, Post } = require('../models');
+const { User, Post, Comment } = require('../models');
 const withAuth = require('../utils/auth');
 
 // Prevent non logged in users from viewing the homepage
@@ -56,11 +56,14 @@ router.get('/post/:id', withAuth, async (req, res) => {
   // If a session exists, redirect the request to the homepage
   try{
     const postData = await Post.findOne({where: {id: req.params.id}});
+    const commentData = await Comment.findAll({where: {post_id: req.params.id}})
 
-  const post = postData.get({ plain: true})
-
+    const post = postData.get({ plain: true})
+    const comments = commentData.map((comment) => comment.get({ plain: true}))
+console.log(comments)
   res.render('post', {
     post,
+    comments,
     // Pass the logged in flag to the template
     logged_in: req.session.logged_in,
   });

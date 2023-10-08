@@ -1,4 +1,5 @@
 module.exports = {
+    eq: (a, b) => {return a === b},
     format_date: (date) => {
       // Format date as MM/DD/YYYY
       return date.toLocaleDateString();
