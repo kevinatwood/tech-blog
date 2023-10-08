@@ -4,8 +4,9 @@ const newFormHandler = async (event) => {
 
   const body = document.querySelector('#project-desc').value.trim();
 
+
   if ( body) {
-    const response = await fetch(`/api/commments`, {
+    const response = await fetch('/api/commments', {
       method: 'POST',
       body: JSON.stringify({ body }),
       headers: {
@@ -16,7 +17,7 @@ const newFormHandler = async (event) => {
     if (response.ok) {
       document.location.replace('/dashboard');
     } else {
-      alert('Failed to create post');
+      alert('Failed to create comment');
     }
   }
 };
@@ -30,7 +31,7 @@ const delButtonHandler = async (event) => {
     });
 
     if (response.ok) {
-      document.location.replace('/profile');
+      document.location.replace('/dashboard');
     } else {
       alert('Failed to delete project');
     }
