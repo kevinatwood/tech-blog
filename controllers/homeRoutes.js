@@ -9,7 +9,7 @@ router.get('/',  async (req, res) => {
       attributes: { exclude: ['password'] },
       order: [['username', 'ASC']],
     });
-    const postData = await Post.findAll();
+    const postData = await Post.findAll({include: [User]});
 
     const users = userData.map((project) => project.get({ plain: true }));
     const posts = postData.map((post) => post.get({ plain: true}))
@@ -38,12 +38,15 @@ router.get('/login', (req, res) => {
 router.get('/dashboard', withAuth, async (req, res) => {
   // If a session exists, redirect the request to the homepage
   try{
-    const postData = await Post.findAll({where: {user_id: req.session.user_id}});
+    const postData = await Post.findAll({where: {user_id: req.session.user_id}, include: [User]});
+    const userData = await User.findOne({where: {id: req.session.user_id}})
 
   const posts = postData.map((post) => post.get({ plain: true}))
+  const user = userData.get({plain: true})
 
   res.render('dashboard', {
     posts,
+    user,
     // Pass the logged in flag to the template
     logged_in: req.session.logged_in,
   });
@@ -55,12 +58,12 @@ router.get('/dashboard', withAuth, async (req, res) => {
 router.get('/post/:id', withAuth, async (req, res) => {
   // If a session exists, redirect the request to the homepage
   try{
-    const postData = await Post.findOne({where: {id: req.params.id}});
-    const commentData = await Comment.findAll({where: {post_id: req.params.id}})
+    const postData = await Post.findOne({ where: {id: req.params.id}, include: [User],});
+    const commentData = await Comment.findAll({where: {post_id: req.params.id}, include: [User]})
 
     const post = postData.get({ plain: true})
     const comments = commentData.map((comment) => comment.get({ plain: true}))
-console.log(comments)
+
   res.render('post', {
     post,
     comments,

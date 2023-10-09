@@ -3,8 +3,7 @@ const newFormHandler = async (event) => {
 
 
   const body = document.querySelector('#project-desc').value.trim();
-  const id = document.querySelector('.btn').dataset.id;
-  console.log(id)
+  const id = document.querySelector('#submit-btn').dataset.id;
  
   if ( body) {
     const response = await fetch(`/api/comments/${id}`, {
@@ -23,18 +22,22 @@ const newFormHandler = async (event) => {
   }
 };
 
-const delButtonHandler = async (event) => {
-  if (event.target.hasAttribute('data-id')) {
-    const id = event.target.getAttribute('data-id');
 
-    const response = await fetch(`/api/post/${id}`, {
+const delButtonHandler = async (event) => {
+  if (event.target.matches('#delete-btn')) {
+    const id = event.target.getAttribute('data-id');
+    const postId = document.querySelector('#submit-btn').dataset.id;
+    const response = await fetch(`/api/comments/${id}`, {
       method: 'DELETE',
     });
 
     if (response.ok) {
-      document.location.replace(`/post/${id}`);
+      // Handle successful delete
+      document.location.replace(`/post/${postId}`);
     } else {
-      alert('Failed to delete project');
+      console.log(response)
+      // Handle failed delete
+      alert("You are only able to delete your own comments");
     }
   }
 };
@@ -44,5 +47,5 @@ document
   .addEventListener('submit', newFormHandler);
 
 document
-  .querySelector('.project-list')
+  .querySelector('.comments')
   .addEventListener('click', delButtonHandler);
