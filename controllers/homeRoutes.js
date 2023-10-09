@@ -75,4 +75,24 @@ router.get('/post/:id', withAuth, async (req, res) => {
 }
 });
 
+router.get('/update/:id', withAuth, async (req, res) => {
+  // If a session exists, redirect the request to the homepage
+  try{
+    const postData = await Post.findOne({ where: {id: req.params.id}, include: [User],});
+    const commentData = await Comment.findAll({where: {post_id: req.params.id}, include: [User]})
+
+    const post = postData.get({ plain: true})
+    const comments = commentData.map((comment) => comment.get({ plain: true}))
+
+  res.render('update', {
+    post,
+    comments,
+    // Pass the logged in flag to the template
+    logged_in: req.session.logged_in,
+  });
+} catch (err) {
+  res.status(500).json(err);
+}
+});
+
 module.exports = router;

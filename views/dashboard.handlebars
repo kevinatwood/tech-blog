@@ -35,7 +35,8 @@
         <p>{{post.body}}</p>
       </div>
       <div class="col-md-4">
-        <button class="btn btn-sm btn-danger" data-id="{{post.id}}">DELETE</button>
+        <button class="btn btn-sm btn-danger" id="delete-btn" data-id="{{post.id}}">DELETE</button>
+        <button class="btn btn-sm" id="update-btn" data-id="{{post.id}}">UPDATE</button>
       </div>
     </div>
     {{/each}}
