@@ -24,6 +24,8 @@ Simply access the app through Heroku to get started. On GitHub, make sure to run
 
 Create an account or login. Then access your posts through the dashboard, or view others posts on the homepage. Clicking on a posts brings you to a page where you can comment on the post and view others comments as well. 
 
+[Link to Application](https://tech-blog-atwood-5b5d84e2592d.herokuapp.com/)
+
 ## Contributing
 
 None
